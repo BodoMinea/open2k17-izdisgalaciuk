@@ -24,11 +24,11 @@
   },
   "homepage": "https://github.com/BodoMinea/open2k17-izdisgalaciuk#readme",
   "dependencies": {
-    "bonjour": "^3.5.0",
-    "express": "^4.15.3",
-    "node-resemble-js": "^0.2.0",
     "body-parser": "^1.17.2",
     "bonjour": "^3.5.0",
+    "express": "^4.15.3",
+    "images": "^3.0.0",
+    "node-resemble-js": "^0.2.0",
     "socket.io": "^1.7.3"
   }
 }

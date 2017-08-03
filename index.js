@@ -7,7 +7,8 @@ const express = require('express'),
 	  ifaces = os.networkInterfaces,
       bodyParser = require("body-parser"),
       fs = require('fs'),
-      resemble = require('node-resemble-js');
+      resemble = require('node-resemble-js'),
+      images = require('images');
 
 var folder, mode='fast', fselect, finalresp=[], total;
 
@@ -43,12 +44,18 @@ function arrayavg(elmt){
 }
 
 function dodiff(input,iname,start,stop,recall,setime){
+  if (typeof(input)=='string') { var namearr=input.split('.'); 
+  if(namearr[namearr.length-1]=='jpg'||namearr[namearr.length-1]=='jpeg'||namearr[namearr.length-1]=='JPG'||namearr[namearr.length-1]=='JPEG'){ 
+  	console.log('Procesare '+input+' ca imagine JPEG...');
+  	var get = input;
+  	input = images(get).encode("png");
+  } }
   if(!setime){ var stime = Date.now(); } else { stime=setime; }
   if(!start){ var start=0; stop=3; }
   var results=[], iterations=0,running=1;
   fs.readdir('./res/'+fselect+'set', (err, files) => {
   	for(i=start;i<=stop;i++){
-    var diff = resemble(input).compareTo('./res/'+fselect+'set/'+files[i]).ignoreAntialiasing().onComplete(function(data){
+    var diff = resemble(input).compareTo('./res/'+fselect+'set/'+files[i]).onComplete(function(data){
     	iterations++;
 		results.push(100-data.misMatchPercentage);
 		console.log(results);
