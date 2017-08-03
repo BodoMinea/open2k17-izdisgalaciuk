@@ -9,7 +9,7 @@ const express = require('express'),
       fs = require('fs'),
       resemble = require('node-resemble-js');
 
-var folder,mode;
+var folder, mode='fast';
 
 process.argv.forEach(function (val, index, array) {
   if(index==2){ folder = val; }
@@ -20,9 +20,34 @@ function datelog(){
 	return Date().split(' ')[0]+' '+Date().split(' ')[1]+' '+Date().split(' ')[2]+' '+Date().split(' ')[3]+' '+Date().split(' ')[4];
 }
 
-bonjour.publish({ name: 'GALACIUCRECOGNIZER', type: 'http', port: 42522 }) // announce
+function arrayavg(elmt){
+	var sum = 0;
+	for( var i = 0; i < elmt.length; i++ ){
+	    sum += parseInt( elmt[i], 10 );
+	}
+	var avg = sum/elmt.length;
+	return.avg;
+}
 
-if(!folder){
+var input = fs.readFileSync('./res/lightset/20170803_102228.png');
+
+function dodiff(input){
+  var results=[], iterations=0;
+  fs.readdir('./res/lightset', (err, files) => {
+  files.forEach(file => {
+    var diff = resemble(input).compareTo('./res/lightset/'+file).ignoreAntialiasing().onComplete(function(data){
+		results.push(100-data.misMatchPercentage);
+	});
+	if(results.length>=5){ var avg = arrayavg(results); if(avg>50) return avg; }
+  });
+})
+}
+
+console.log(dodiff(input));
+
+if(!folder){ // mod app server API daca nu avem cmd line
+
+	bonjour.publish({ name: 'GALACIUCRECOGNIZER', type: 'http', port: 42522 }) // announce
 
 	app.use('/static', express.static('res/public')); // resurse statice
 
