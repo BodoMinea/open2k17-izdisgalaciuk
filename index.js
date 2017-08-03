@@ -1,4 +1,4 @@
-const express = require('express'),
+const express = require('express'), 
 	  app = express(),
 	  os = require('os'),
 	  bonjour = require('bonjour')(),
@@ -9,7 +9,7 @@ const express = require('express'),
       fs = require('fs'),
       resemble = require('node-resemble-js');
 
-var folder, mode='fast';
+var folder, mode='fast', fselect;
 
 Array.prototype.max = function() {
   return Math.max.apply(null, this);
@@ -17,11 +17,16 @@ Array.prototype.max = function() {
 
 process.argv.forEach(function (val, index, array) {
   if(index==2){ folder = val; }
-  if(index==3){ mode = val; }
+  if(index==3&&typeof(val)!='undefined'){ mode = val; }
+  if(mode=='fast') { fselect='light'; } else { fselect='init'; }
 });
 
 function datelog(){
 	return Date().split(' ')[0]+' '+Date().split(' ')[1]+' '+Date().split(' ')[2]+' '+Date().split(' ')[3]+' '+Date().split(' ')[4];
+}
+
+function randomize(start,stop){
+	return Math.floor(Math.random() * stop) + start;
 }
 
 function arrayavg(elmt){
@@ -35,22 +40,29 @@ function arrayavg(elmt){
 
 var input = fs.readFileSync('./res/lightset/20170803_102228.png');
 
-function dodiff(input,start,stop){
-  if(!start){ var start=0; stop=5;}
+function dodiff(input,start,stop,recall){
+  if(!start){ var start=0; stop=3; }
   var results=[], iterations=0,running=1;
-  fs.readdir('./res/lightset', (err, files) => {
-  	for(i=start,i<=stop,i++){
-    var diff = resemble(input).compareTo('./res/lightset/'+files[i]).ignoreAntialiasing().onComplete(function(data){
+  fs.readdir('./res/'+fselect+'set', (err, files) => {
+  	for(i=start;i<=stop;i++){
+    var diff = resemble(input).compareTo('./res/'+fselect+'set/'+files[i]).ignoreAntialiasing().onComplete(function(data){
+    	iterations++;
 		results.push(100-data.misMatchPercentage);
 		console.log(results);
-		console.log('Nr. Rez.: '+results.length+' Avg: '+arrayavg(results)+' Max: '+results.max());
-		console.log(results.length>=5);
-		if(results.length>=5){ var avg = arrayavg(results); if(avg>50) response((results.max()*3+avg)/4); }
-		else if(i>files.length-files.length/3) { response((results.max()*3+arrayavg(results))/4); }
-		else if(i>=) { dodiff(input,i,files.length-1) }
+		console.log('WORKING -> Nr. Rez.: '+results.length+' Avg: '+arrayavg(results)+' Max: '+results.max());
+		if(iterations==stop+1){ var avg = arrayavg(results); if(avg>50) { response((results.max()*3+avg)/4); }
+		else { var rndx=randomize(iterations,files.length-2); dodiff(input,rndx,rndx+2,true); } }
+		else if(recall&&results.length==2){ response((results.max()*3+avg)/4); }
 		});
 	}
 })
+}
+
+function response(resp){
+	if(folder){ 
+		console.log('FINAL: '+resp);
+		process.exit();
+	}
 }
 
 dodiff(input);
