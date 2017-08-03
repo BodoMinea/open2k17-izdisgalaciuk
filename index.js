@@ -11,6 +11,10 @@ const express = require('express'),
 
 var folder, mode='fast';
 
+Array.prototype.max = function() {
+  return Math.max.apply(null, this);
+};
+
 process.argv.forEach(function (val, index, array) {
   if(index==2){ folder = val; }
   if(index==3){ mode = val; }
@@ -26,24 +30,31 @@ function arrayavg(elmt){
 	    sum += parseInt( elmt[i], 10 );
 	}
 	var avg = sum/elmt.length;
-	return.avg;
+	return avg;
 }
 
 var input = fs.readFileSync('./res/lightset/20170803_102228.png');
 
 function dodiff(input){
-  var results=[], iterations=0;
+  var results=[], iterations=0,running=1;
   fs.readdir('./res/lightset', (err, files) => {
   files.forEach(file => {
+  	iterations++;
+  	if (running){
     var diff = resemble(input).compareTo('./res/lightset/'+file).ignoreAntialiasing().onComplete(function(data){
 		results.push(100-data.misMatchPercentage);
-	});
-	if(results.length>=5){ var avg = arrayavg(results); if(avg>50) return avg; }
+		console.log(results);
+		console.log('Nr. Rez.: '+results.length+' Avg: '+arrayavg(results)+' Max: '+results.max());
+		console.log(results.length>=5);
+		if(results.length>=5){ running = 0; var avg = arrayavg(results); if(avg>50) return (results.max()*3+avg)/4; }
+		else if(iterations==results.length) { return (results.max()*3+arrayavg(results))/4; }
+		});
+	}
   });
 })
 }
 
-console.log(dodiff(input));
+dodiff(input);
 
 if(!folder){ // mod app server API daca nu avem cmd line
 
