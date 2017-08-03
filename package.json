@@ -22,5 +22,9 @@
   "bugs": {
     "url": "https://github.com/BodoMinea/open2k17-izdisgalaciuk/issues"
   },
-  "homepage": "https://github.com/BodoMinea/open2k17-izdisgalaciuk#readme"
+  "homepage": "https://github.com/BodoMinea/open2k17-izdisgalaciuk#readme",
+  "dependencies": {
+    "express": "^4.15.3",
+    "node-resemble-js": "^0.2.0"
+  }
 }
