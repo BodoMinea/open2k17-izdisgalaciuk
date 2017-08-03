@@ -9,7 +9,11 @@ const express = require('express'),
       fs = require('fs'),
       resemble = require('node-resemble-js');
 
-var folder, mode='fast', fselect;
+var folder, mode='fast', fselect, finalresp=[], total;
+
+function set(x){
+	total = x;
+}
 
 Array.prototype.max = function() {
   return Math.max.apply(null, this);
@@ -38,9 +42,7 @@ function arrayavg(elmt){
 	return avg;
 }
 
-var input = fs.readFileSync('./res/lightset/20170803_102228.png');
-
-function dodiff(input,start,stop,recall){
+function dodiff(input,iname,start,stop,recall){
   if(!start){ var start=0; stop=3; }
   var results=[], iterations=0,running=1;
   fs.readdir('./res/'+fselect+'set', (err, files) => {
@@ -50,22 +52,29 @@ function dodiff(input,start,stop,recall){
 		results.push(100-data.misMatchPercentage);
 		console.log(results);
 		console.log('WORKING -> Nr. Rez.: '+results.length+' Avg: '+arrayavg(results)+' Max: '+results.max());
-		if(iterations==stop+1){ var avg = arrayavg(results); if(avg>50) { response((results.max()*3+avg)/4); }
-		else { var rndx=randomize(iterations,files.length-2); dodiff(input,rndx,rndx+2,true); } }
-		else if(recall&&results.length==2){ response((results.max()*3+avg)/4); }
+		if(iterations==stop+1){ var avg = arrayavg(results); if(avg>50) { response((results.max()*3+avg)/4,iname); }
+		else { var rndx=randomize(iterations,files.length-2); dodiff(input,iname,rndx,rndx+2,true); } }
+		else if(recall&&results.length==2){ response((results.max()*3+avg)/4,iname); }
 		});
 	}
 })
 }
 
-function response(resp){
+function response(resp,iname){
 	if(folder){ 
 		console.log('FINAL: '+resp);
-		process.exit();
+		finalresp.push(iname+'     '+resp); 
+		if(finalresp.length==total){ 
+			console.log();
+			console.log('------------- [ RAPORT FINAL FOLDER ] -------------');
+			console.log('_____________ ( path fisier, procent) _____________');
+			for(var i=0;i<finalresp.length;i++) { console.log(folder+'/'+finalresp[i]); }
+			console.log();
+			console.log('Rezultatele au fost salvate si in raport.csv');
+			process.exit();
+		}
 	}
 }
-
-dodiff(input);
 
 if(!folder){ // mod app server API daca nu avem cmd line
 
@@ -89,4 +98,12 @@ if(!folder){ // mod app server API daca nu avem cmd line
 		})
 	})
 
+}else{
+	finalresp=[];
+	fs.readdir(folder, (err, files) => {
+  		for(var i=0; i<files.length; i++){
+  			dodiff(folder+'/'+files[i],files[i]);
+  			set(files.length);
+  		}
+	})
 }
