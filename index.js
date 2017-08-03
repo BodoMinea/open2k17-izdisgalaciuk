@@ -51,7 +51,7 @@ function dodiff(input,iname,start,stop,recall){
     	iterations++;
 		results.push(100-data.misMatchPercentage);
 		console.log(results);
-		console.log('WORKING -> Nr. Rez.: '+results.length+' Avg: '+arrayavg(results)+' Max: '+results.max());
+		console.log('WORKING ('+iname+') -> Nr. Rez.: '+results.length+' Avg: '+arrayavg(results)+' Max: '+results.max());
 		if(iterations==stop+1){ var avg = arrayavg(results); if(avg>50) { response((results.max()*3+avg)/4,iname); }
 		else { var rndx=randomize(iterations,files.length-2); dodiff(input,iname,rndx,rndx+2,true); } }
 		else if(recall&&results.length==2){ response((results.max()*3+avg)/4,iname); }
@@ -60,9 +60,22 @@ function dodiff(input,iname,start,stop,recall){
 })
 }
 
+function writeCSV () {							
+    var file = './raport.csv';
+    var text = '';
+    for(var i=0;i<finalresp.length;i++) { 
+    	if(i!=finalresp.length-1) { text+=finalresp[i].split('     ')[0]+','; } else { text+=finalresp[i].split('     ')[0]; }
+    }
+    text+='\r\n';
+    for(var i=0;i<finalresp.length;i++) { 
+    	if(i!=finalresp.length-1) { text+=finalresp[i].split('     ')[1]+','; } else { text+=finalresp[i].split('     ')[1]; }
+    }
+    if(fs.writeFileSync(file, text)){ console.log('Rezultatele au fost salvate si in raport.csv'); }
+}
+
 function response(resp,iname){
 	if(folder){ 
-		console.log('FINAL: '+resp);
+		console.log('FINAL ('+iname+') :'+resp);
 		finalresp.push(iname+'     '+resp); 
 		if(finalresp.length==total){ 
 			console.log();
@@ -70,7 +83,7 @@ function response(resp,iname){
 			console.log('_____________ ( path fisier, procent) _____________');
 			for(var i=0;i<finalresp.length;i++) { console.log(folder+'/'+finalresp[i]); }
 			console.log();
-			console.log('Rezultatele au fost salvate si in raport.csv');
+			writeCSV();
 			process.exit();
 		}
 	}
