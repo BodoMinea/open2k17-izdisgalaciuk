@@ -107,12 +107,12 @@ if(!folder){ // mod app server API daca nu avem cmd line
 
 	bonjour.publish({ name: 'GALACIUCRECOGNIZER', type: 'http', port: 42522 }) // announce
 
-	app.use('/static', express.static('res/public')); // resurse statice
+	app.use('/public', express.static('res/public')); // resurse statice
 
 	app.use(busboy());
 
 	app.get('/', function(req, res){ // interfata online
-	  res.sendFile(__dirname + '/app/');
+	  res.sendFile(__dirname + '/app/gui.html');
 	  console.log('Webapp accesat -> '+datelog());
 	});
 
