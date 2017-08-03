@@ -35,22 +35,21 @@ function arrayavg(elmt){
 
 var input = fs.readFileSync('./res/lightset/20170803_102228.png');
 
-function dodiff(input){
+function dodiff(input,start,stop){
+  if(!start){ var start=0; stop=5;}
   var results=[], iterations=0,running=1;
   fs.readdir('./res/lightset', (err, files) => {
-  files.forEach(file => {
-  	iterations++;
-  	if (running){
-    var diff = resemble(input).compareTo('./res/lightset/'+file).ignoreAntialiasing().onComplete(function(data){
+  	for(i=start,i<=stop,i++){
+    var diff = resemble(input).compareTo('./res/lightset/'+files[i]).ignoreAntialiasing().onComplete(function(data){
 		results.push(100-data.misMatchPercentage);
 		console.log(results);
 		console.log('Nr. Rez.: '+results.length+' Avg: '+arrayavg(results)+' Max: '+results.max());
 		console.log(results.length>=5);
-		if(results.length>=5){ running = 0; var avg = arrayavg(results); if(avg>50) return (results.max()*3+avg)/4; }
-		else if(iterations==results.length) { return (results.max()*3+arrayavg(results))/4; }
+		if(results.length>=5){ var avg = arrayavg(results); if(avg>50) response((results.max()*3+avg)/4); }
+		else if(i>files.length-files.length/3) { response((results.max()*3+arrayavg(results))/4); }
+		else if(i>=) { dodiff(input,i,files.length-1) }
 		});
 	}
-  });
 })
 }
 
