@@ -3,12 +3,14 @@ const express = require('express'),
 	  os = require('os'),
 	  bonjour = require('bonjour')(),
 	  http = require('http').Server(app),
-	  io = require('socket.io')(http),
 	  ifaces = os.networkInterfaces,
       bodyParser = require("body-parser"),
       fs = require('fs'),
       resemble = require('node-resemble-js'),
-      images = require('images');
+      images = require('images'),
+      busboy = require('connect-busboy'),
+      fs = require('fs-extra'),
+      path = require('path');
 
 var folder, mode='fast', fselect, finalresp=[], total;
 
@@ -108,15 +110,28 @@ if(!folder){ // mod app server API daca nu avem cmd line
 
 	app.use('/static', express.static('res/public')); // resurse statice
 
+	app.use(busboy());
+
 	app.get('/', function(req, res){ // interfata online
 	  res.sendFile(__dirname + '/app/');
-	  console.log('Webapp accessed -> '+datelog());
+	  console.log('Webapp accesat -> '+datelog());
 	});
 
-	app.get('/picmatch', function (req, res) { // API-ul, creierul, aka Shakespeare
-	   console.log('Almighty API called -> '+datelog());
-	   res.send('');
-	})
+	app.route('/upload')
+    .post(function (req, res, next) {
+	var fstream;
+        req.pipe(req.busboy);
+        req.busboy.on('file', function (fieldname, file, filename) {
+        	console.log('Minunatul API apelat -> '+datelog());
+            console.log("Incarcare: " + filename);
+            fstream = fs.createWriteStream(__dirname + 'res/upl/' + filename);
+            file.pipe(fstream);
+            fstream.on('close', function () {    
+                console.log("Incarcare terminata " + filename + ' ' + datelog());              
+                res.send('back');
+            });
+        });
+    });
 
 	app.listen(42522, function () {
 	  require('dns').lookup(require('os').hostname(), function (err, add, fam) {
