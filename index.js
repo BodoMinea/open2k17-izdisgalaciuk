@@ -2,7 +2,8 @@ const express = require('express'),
 	  app = express(),
 	  os = require('os'),
 	  bonjour = require('bonjour')(),
-	  http = require('http').Server(app),
+	  server = require('http').createServer(app),
+	  io = require('socket.io').listen(server),
 	  ifaces = os.networkInterfaces,
       bodyParser = require("body-parser"),
       resemble = require('node-resemble-js'),
@@ -47,7 +48,7 @@ function arrayavg(elmt){
 function dodiff(input,iname,start,stop,recall,setime){
   if (typeof(input)=='string') { var namearr=input.split('.'); 
   if(namearr[namearr.length-1]=='jpg'||namearr[namearr.length-1]=='jpeg'||namearr[namearr.length-1]=='JPG'||namearr[namearr.length-1]=='JPEG'){ 
-  	console.log('Procesare '+input+' ca imagine JPEG...');
+  	console.log('Procesare '+input+' ca imagine JPEG... (+conversie)');
   	var get = input;
   	input = images(get).encode("png");
   } else { console.log('Procesare '+input+' ca imagine PNG...'); } }
@@ -56,14 +57,14 @@ function dodiff(input,iname,start,stop,recall,setime){
   fs.readdir('./res/'+fselect+'set', (err, files) => {
   	for(i=start;i<=stop;i++){
   	if(!setime){ var stime = Date.now(); } else { stime=setime; }
-    var diff = resemble(input).compareTo('./res/'+fselect+'set/'+files[i]).ignoreNothing().onComplete(function(data){
+    var diff = resemble(input).compareTo('./res/'+fselect+'set/'+files[i]).ignoreAntialiasing().onComplete(function(data){
     	iterations++;
-		results.push(data.misMatchPercentage);
+		results.push(100-data.misMatchPercentage);
 		console.log(results);
 		console.log('WORKING ('+iname+') -> Nr. Rez.: '+results.length+' Avg: '+arrayavg(results).toFixed(2)+' Max: '+results.max().toFixed(2));
 		if(iterations==stop+1){ var avg = arrayavg(results); if(avg>50) { response((results.max()*3+avg)/4,iname,((Date.now()-stime)/1000).toFixed(2)); }
 		else { var rndx=randomize(iterations,files.length-2); dodiff(input,iname,rndx,rndx+2,true,setime); } }
-		else if(recall&&results.length==2){ response((results.max()*3+avg)/4,iname,((Date.now()-stime)/1000).toFixed(2)); }
+		else if(recall&&results.length==2){ response((results.max()*3+arrayavg(results))/4,iname,((Date.now()-stime)/1000).toFixed(2)); }
 		});
 	}
 })
@@ -100,6 +101,10 @@ function response(resp,iname,stime){
 			console.log('Rezultatele impreuna cu timpii de procesare au fost salvate si in raport.csv');
 			process.exit();
 		}
+	}else{
+		var str = resp.toFixed(2)+'% potrivire cu Gălăciuc -> '+iname+' | Procesat în '+stime+' sec.';
+		io.emit('done', str);
+		console.log('Servit către client: '+str)
 	}
 }
 
@@ -123,16 +128,16 @@ if(!folder){ // mod app server API daca nu avem cmd line
         req.busboy.on('file', function (fieldname, file, filename) {
         	console.log('Minunatul API apelat -> '+datelog());
             console.log("Incarcare: " + filename);
-            fstream = fs.createWriteStream(__dirname + 'res/upl/' + filename);
+            fstream = fs.createWriteStream(__dirname + '/res/upl/' + filename);
             file.pipe(fstream);
             fstream.on('close', function () {    
                 console.log("Incarcare terminata " + filename + ' ' + datelog());              
-                res.send('back');
+                dodiff('./res/upl/'+filename,filename);
             });
         });
     });
 
-	app.listen(42522, function () {
+	server.listen(42522, function () {
 	  require('dns').lookup(require('os').hostname(), function (err, add, fam) {
 	  		console.log('API Listening on - '+add+':42522 -> '+datelog());
 		})

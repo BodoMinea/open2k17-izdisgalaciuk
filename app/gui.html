@@ -7,18 +7,81 @@
     <link rel="stylesheet" href="public/css/font-awesome.css">
     <link rel="shortcut icon" href="/public/pictures.ico">
     <link rel="stylesheet" href="public/css/dropzone.css">
+    <script src='/socket.io/socket.io.js'></script>
+    <meta name="mobile-web-app-capable" content="yes">
 	<title>Gălăciuc or not Gălăciuc?</title>
+	<style type="text/css">
+		body {
+		  padding-top: 20px;
+		  padding-bottom: 20px;
+		}
+		.header,
+		.marketing,
+		.footer {
+		  padding-right: 15px;
+		  padding-left: 15px;
+		}
+		.header {
+		  padding-bottom: 20px;
+		  border-bottom: 1px solid #e5e5e5;
+		}
+		.header h3 {
+		  margin-top: 0;
+		  margin-bottom: 0;
+		  line-height: 40px;
+		}
+		.footer {
+		  padding-top: 19px;
+		  color: #777;
+		  border-top: 1px solid #e5e5e5;
+		}
+	</style>
 </head>
 <body>
 
-<form action="/upload" class="dropzone">
-	<div class="fallback">
-    <input name="file" type="file" />
-  </div>    
-</form>
+<div class="container">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" class="active"><a href="./"><i class="fa fa-search-plus" aria-hidden="true"></i> The Recognizr</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted"><i class="fa fa-home" aria-hidden="true"></i> To be or not to be... Gălăciuc</h3>
+      </div>
 
+      <div class="jumbotron">
+        <p class="lead">
+        	<form action="/upload" class="dropzone">
+				<div class="fallback">
+			    <input name="file" type="file" />
+			  </div>    
+			</form>
+        </p>
+        <div class="panel panel-success">
+			  <div class="panel-heading clearfix"><h4 class="panel-title pull-left"><i class="fa fa-file-code-o" aria-hidden="true"></i> Rezultat</h4>
+			  <div class="btn-group pull-right">
+			        <button onclick="window.location.reload();" class="btn btn-warning btn-xs"><i class="fa fa-refresh" aria-hidden="true"></i> Refresh </button>
+      			</div>
+			  </div>
+			  <div class="panel-body" id="here">
+			    
+			  </div>
+		</div>
+      </div>
+
+      <footer class="footer">
+        <p>&copy; 2017 Minea Claudiu Bogdan</p>
+      </footer>
+
+    </div> <!-- /container -->
 
 <script src="public/js/jquery.js"></script>
 <script src="public/js/dropzone.js"></script>
+<script type="text/javascript">
+	var socket = io();
+	socket.on('done', function(data) {
+	    $('#here').append('<i class="fa fa-window-restore" aria-hidden="true"></i> '+data+'<br>');
+	});
+</script>
 </body>
 </html>
