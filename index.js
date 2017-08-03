@@ -49,15 +49,15 @@ function dodiff(input,iname,start,stop,recall,setime){
   	console.log('Procesare '+input+' ca imagine JPEG...');
   	var get = input;
   	input = images(get).encode("png");
-  } }
-  if(!setime){ var stime = Date.now(); } else { stime=setime; }
+  } else { console.log('Procesare '+input+' ca imagine PNG...'); } }
   if(!start){ var start=0; stop=3; }
-  var results=[], iterations=0,running=1;
+  var results=[], iterations=0;
   fs.readdir('./res/'+fselect+'set', (err, files) => {
   	for(i=start;i<=stop;i++){
-    var diff = resemble(input).compareTo('./res/'+fselect+'set/'+files[i]).onComplete(function(data){
+  	if(!setime){ var stime = Date.now(); } else { stime=setime; }
+    var diff = resemble(input).compareTo('./res/'+fselect+'set/'+files[i]).ignoreNothing().onComplete(function(data){
     	iterations++;
-		results.push(100-data.misMatchPercentage);
+		results.push(data.misMatchPercentage);
 		console.log(results);
 		console.log('WORKING ('+iname+') -> Nr. Rez.: '+results.length+' Avg: '+arrayavg(results).toFixed(2)+' Max: '+results.max().toFixed(2));
 		if(iterations==stop+1){ var avg = arrayavg(results); if(avg>50) { response((results.max()*3+avg)/4,iname,((Date.now()-stime)/1000).toFixed(2)); }
