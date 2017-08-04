@@ -3,8 +3,11 @@
 ## Instalare și rulare 
 Clonați aplicația din repository pe mașina locală și instalați dependințele de module. Este necesară o versiune recentă de NodeJS și NPM, disponibilă în variabila PATH a sistemului sau poate una portabilă.
 `git clone https://github.com/BodoMinea/open2k17-izdisgalaciuk.git`
+
 `npm install`
+
 Există două moduri de a rula aplicația:
+
 - Utilitar în linia de comandă: din folder-ul instalării rulăm `node . folderpoze` (de exemplu `node . C:\Users\bodo\Desktop\test`) sau `node index.js folderpoze`. Aplicația va procesa în mod multithreaded toate pozele din folder și va afișa la final rezultatele. Se salvează și un fișier CSV raport cu numele fișierelor evaluate, procentele și timpii de așteptare ce le corespund.
 
 _Notă: există un al doilea parametru pentru rularea ca CLI tool, respectiv „modul” de operare. Implicit acesta este FAST. Se poate comuta în modul FULL care folosește sample-uri de rezoluție superioară (dar durează semnificativ mai mult) adăugând parametrul full (ex: `node . C:\Users\bodo\Desktop\test full`)_
@@ -26,6 +29,7 @@ _Notă: există un al doilea parametru pentru rularea ca CLI tool, respectiv „
 - RESTful JSON-API _(**poate**, dacă nu mai pică curentul și dacă mă mai trezesc)_
 - Resemble V2 (?)
 - Normalizarea dimensiunii imaginii odată cu conversia pentru a face comparația pe canvas mai precisă (?)
+- Testări automatizate
 
 ### Note
 - Pentru a funcționa, aplicația are nevoie de cel puțin un set de date. În folderul res trebuie create două alte foldere `initset`, respectiv `lightset`, cel din urmă reprezentând fotografiile de referință pentru comparație la rezoluție mică (recomand [Caesium](https://saerasoft.com/caesium/) pentru redimensionări/compresie/conversie), iar primul pentru setul de fotografii la rezoluție completă. Formatul fișierelor de referință este obligatoriu **PNG**. Se pot folosi de exemplu chiar fotografiile din setul public furnizat de concurs: https://drive.google.com/open?id=0B8Cwvl0E-sEbMXluQ0ZXT2hIem8 (folderul cu pozitive pentru referință)

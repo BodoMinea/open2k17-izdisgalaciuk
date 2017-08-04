@@ -78,9 +78,9 @@
 <script src="public/js/jquery.js"></script>
 <script src="public/js/dropzone.js"></script>
 <script type="text/javascript">
-	var socket = io();
+	var socket = io(); // socket
 	socket.on('done', function(data) {
-	    $('#here').append('<i class="fa fa-window-restore" aria-hidden="true"></i> '+data+'<br>');
+	    $('#here').append('<i class="fa fa-window-restore" aria-hidden="true"></i> '+data+'<br>'); // scriem in div
 	});
 </script>
 </body>
