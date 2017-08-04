@@ -37,7 +37,7 @@ _Notă: există un al doilea parametru pentru rularea ca CLI tool, respectiv „
 - ~~Resemble V2~~ (implementat)
 - ~~Normalizarea dimensiunii imaginii odată cu conversia pentru a face comparația pe canvas mai precisă~~ __(ResembleJS2 normalizeaa input-ul)__
 - Testări automatizate
-- Metoda curentă de măsurare a timpului de procesare reușește cumva să măsoare timpul total, nu pe fiecare test. Se poate estima oricum timpul așteptat împărțind, dar o să investighez problema.
+- Metoda curentă de măsurare a timpului de procesare reușește cumva să măsoare timpul total, nu pe fiecare test, sau sa nu îl mai măsoare deloc. Se poate estima oricum timpul așteptat împărțind, dar o să investighez problema.
 
 ### Note
 - Pentru a funcționa, aplicația are nevoie de cel puțin un set de date. În folderul res trebuie create două alte foldere `initset`, respectiv `lightset`, cel din urmă reprezentând fotografiile de referință pentru comparație la rezoluție mică (recomand [Caesium](https://saerasoft.com/caesium/) pentru redimensionări/compresie/conversie), iar primul pentru setul de fotografii la rezoluție completă. Formatul fișierelor de referință este obligatoriu **PNG**. Se pot folosi de exemplu chiar fotografiile din setul public furnizat de concurs: https://drive.google.com/open?id=0B8Cwvl0E-sEbMXluQ0ZXT2hIem8 (folderul cu pozitive pentru referință)
