@@ -19,6 +19,8 @@ _Notă: există un al doilea parametru pentru rularea ca CLI tool, respectiv „
 - Serviciul web acceptă și call-uri API pe endpoint-ul /api/compare. Se așteaptă un parametru POST numit img ca x-www-form-urlencoded care să conțină reprezentarea Base64 a unei imagini. Se returnează un răspuns de forma `{"status":"ok","rezultat":100, "timp":2.13}`
 
 ![api](./res/public/readme_api.png "JSONAPI")
+![mobile&diff](./res/public/readme_mobil.jpg "Mobile & Diff")
+^ aplicația web responsive client rulând pe un telefon cu Android - arată și ultimul feature adăugat: graficul diferențelor (arată cum face parcurgerea zonelor fotografiei.)
 
 ## Tehnologii folosite
 - NodeJS (platforma de bază), Express (partea de web server), BodyParser (eventuali parametrii GET / API), busboy middleware (primire fișiere prin POST), fs-extra (funcții extinse de prelucrare a fișierelor)
