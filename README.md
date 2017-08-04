@@ -16,10 +16,10 @@ _Notă: există un al doilea parametru pentru rularea ca CLI tool, respectiv „
 - ResembleJS, Node Images - conversie de format, virtualizarea canvas-ului în linie de comandă, generarea unei imagini de „diferență” a mai multor imagini date). „Harta diferențelor” creată de ResembleJS, în funcție de care se poate calcula un oarecare grad de similitudine a celor două imagini, luând în calcul gama de culori, dispunerea acestora,  parametrii de luminozitate și anumite forme de obiecte. Anumiți parametrii de toleranță ai culorii, asupra antialiasing-ului au fost ajustate, împreună cu o formulă de calcul ponderat și o logică de împărțire și raportare a job-urilor din coadă au fost implementate în scopul realizării softului pe tema dată.
 - Bonjour: anunțarea serviciului în LAN în vederea unei viitoare aplicații client.
 
-![Consola - în timpul rulării](./master/res/public/readme_running.png "Consola - în timpul rulării")
-![Consola - raport final](./master/res/public/readme_final.png "Consola - raport final")
-![CSV](./master/res/public/readme_excel.png "Fișierul CSV raport")
-![web](./master/res/public/web.png "Pagina web")
+![Consola - în timpul rulării](./res/public/readme_running.png "Consola - în timpul rulării")
+![Consola - raport final](./res/public/readme_final.png "Consola - raport final")
+![CSV](./res/public/readme_excel.png "Fișierul CSV raport")
+![web](./res/public/web.png "Pagina web")
 * _Aplicația web este responsive și se poate adăuga ca web-app direct pe ecranul de start al telefonului (Android)_
 
 ### To-Do
