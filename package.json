@@ -27,11 +27,12 @@
     "async": "^2.5.0",
     "body-parser": "^1.17.2",
     "bonjour": "^3.5.0",
+    "canvas": "^1.6.6",
     "connect-busboy": "0.0.2",
     "express": "^4.15.3",
     "fs-extra": "^4.0.1",
     "images": "^3.0.0",
-    "node-resemble-js": "^0.2.0",
+    "node-resemble-v2": "^1.0.0",
     "socket.io": "^1.7.3"
   }
 }

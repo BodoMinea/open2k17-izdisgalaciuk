@@ -33,9 +33,9 @@ _Notă: există un al doilea parametru pentru rularea ca CLI tool, respectiv „
 * _Aplicația web este responsive și se poate adăuga ca web-app direct pe ecranul de start al telefonului (Android)_
 
 ### To-Do
-- ~~RESTful JSON-API _(**poate**, dacă nu mai pică curentul și dacă mă mai trezesc)_~~ (implementat)
-- Resemble V2 (?)
-- Normalizarea dimensiunii imaginii odată cu conversia pentru a face comparația pe canvas mai precisă (?)
+- ~~RESTful JSON-API _(**poate**, dacă nu mai pică curentul și dacă mă mai trezesc)_~~ (implementat!)
+- ~~Resemble V2~~ (implementat)
+- ~~Normalizarea dimensiunii imaginii odată cu conversia pentru a face comparația pe canvas mai precisă~~ __(ResembleJS2 normalizeaa input-ul)__
 - Testări automatizate
 - Metoda curentă de măsurare a timpului de procesare reușește cumva să măsoare timpul total, nu pe fiecare test. Se poate estima oricum timpul așteptat împărțind, dar o să investighez problema.
 
@@ -43,3 +43,4 @@ _Notă: există un al doilea parametru pentru rularea ca CLI tool, respectiv „
 - Pentru a funcționa, aplicația are nevoie de cel puțin un set de date. În folderul res trebuie create două alte foldere `initset`, respectiv `lightset`, cel din urmă reprezentând fotografiile de referință pentru comparație la rezoluție mică (recomand [Caesium](https://saerasoft.com/caesium/) pentru redimensionări/compresie/conversie), iar primul pentru setul de fotografii la rezoluție completă. Formatul fișierelor de referință este obligatoriu **PNG**. Se pot folosi de exemplu chiar fotografiile din setul public furnizat de concurs: https://drive.google.com/open?id=0B8Cwvl0E-sEbMXluQ0ZXT2hIem8 (folderul cu pozitive pentru referință)
 - Este necesară existența unui folder „upl” în `res` pentru a avea un spațiu dedicat încărcării fișierelor primite online.
 - Comenzile sugerate la primul punct pot diferi de la sistem la sistem în funcție de instalare (ex.: `nodejs` în loc de `node` ca executabil implicit).
+- Cea mai recentă versiune a aplicației folosește ResembleJS2 și folosește o emulare a unui canvas prin utilitarul „CAIRO” existent în LibGTK. Așa că pentru a instala cea mai recentă variantă vă invit să consultați informațiile suplimentare de [aici](https://github.com/Automattic/node-canvas/wiki/Installation---Windows) sau să înlocuiți în linia a10-a din index.js „node-resemble-v2” cu „node-resemble-js” și să rulați `npm install node-resemble-js` - această implementare cu acuratețe mai slabă nu are nevoie de un Canvas real, deci nici de Cairo.
