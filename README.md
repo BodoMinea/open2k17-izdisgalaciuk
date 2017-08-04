@@ -2,6 +2,7 @@
 :computer: Poate că nu este cel mai avansat proiect, și sigur nici cel mai precis din punct de vedere al algoritmului, dar este așa-zisul „Shakespeare” de la Gălăciuc - TO BE OR NOT TO BE?!
 ## Instalare și rulare 
 Clonați aplicația din repository pe mașina locală și instalați dependințele de module. Este necesară o versiune recentă de NodeJS și NPM, disponibilă în variabila PATH a sistemului sau poate una portabilă.
+
 `git clone https://github.com/BodoMinea/open2k17-izdisgalaciuk.git`
 
 `npm install`
@@ -33,4 +34,5 @@ _Notă: există un al doilea parametru pentru rularea ca CLI tool, respectiv „
 
 ### Note
 - Pentru a funcționa, aplicația are nevoie de cel puțin un set de date. În folderul res trebuie create două alte foldere `initset`, respectiv `lightset`, cel din urmă reprezentând fotografiile de referință pentru comparație la rezoluție mică (recomand [Caesium](https://saerasoft.com/caesium/) pentru redimensionări/compresie/conversie), iar primul pentru setul de fotografii la rezoluție completă. Formatul fișierelor de referință este obligatoriu **PNG**. Se pot folosi de exemplu chiar fotografiile din setul public furnizat de concurs: https://drive.google.com/open?id=0B8Cwvl0E-sEbMXluQ0ZXT2hIem8 (folderul cu pozitive pentru referință)
+- Este necesară existența unui folder „upl” în `res` pentru a avea un spațiu dedicat încărcării fișierelor primite online.
 - Comenzile sugerate la primul punct pot diferi de la sistem la sistem în funcție de instalare (ex.: `nodejs` în loc de `node` ca executabil implicit).
