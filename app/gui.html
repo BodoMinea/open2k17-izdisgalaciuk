@@ -67,6 +67,13 @@
 			    
 			  </div>
 		</div>
+		<div class="panel panel-info">
+			  <div class="panel-heading clearfix"><h4 class="panel-title pull-left"><i class="fa fa-file-image-o" aria-hidden="true"></i> Graficul diferențelor</h4>
+			  </div>
+			  <div class="panel-body" id="here">
+			    <img src="" style="display: none;" width="100%" id="preview">
+			  </div>
+		</div>
       </div>
 
       <footer class="footer">
@@ -82,6 +89,13 @@
 	socket.on('done', function(data) {
 	    $('#here').append('<i class="fa fa-window-restore" aria-hidden="true"></i> '+data+'<br>'); // scriem in div
 	});
+	socket.on('preview', function(data) {
+		document.getElementById('preview').setAttribute( 'src', data );
+		$('#preview').show();
+	});
+
+	
+
 </script>
 </body>
 </html>

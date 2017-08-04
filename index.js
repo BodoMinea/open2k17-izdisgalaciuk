@@ -62,6 +62,7 @@ function dodiff(input,iname,start,stop,recall,setime){ // functia serioasa care 
     var diff = resemble(input).compareTo('./res/'+fselect+'set/'+files[i]).ignoreAntialiasing().onComplete(function(data){
     	iterations++;
 		results.push(100-data.misMatchPercentage); // asemanarea ca procent
+		io.emit('preview',data.getImageDataUrl());
 		console.log(results); // logging again
 		console.log('WORKING ('+iname+') -> Nr. Rez.: '+results.length+' Avg: '+arrayavg(results).toFixed(2)+' Max: '+results.max().toFixed(2)); // and again
 		if(iterations==stop+1){ var avg = arrayavg(results); if(avg>50) { response((results.max()*3+avg)/4,iname,((Date.now()-stime)/1000).toFixed(2)); } // returnam
