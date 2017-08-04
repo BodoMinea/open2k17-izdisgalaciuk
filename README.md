@@ -1,5 +1,8 @@
 #### [InfoEducație 2017 - ediția 24 OPEN UTILITAR FINALA](https://infoeducatie.ro/): [Minea Claudiu Bogdan](http://community.infoeducatie.ro/t/transitkit-cloud-based-intelligent-transportation-system-utilitar-bucuresti-lucrari-2017-nationala/4406) :sleeping:
 :computer: Poate că nu este cel mai avansat proiect, și sigur nici cel mai precis din punct de vedere al algoritmului, dar este așa-zisul „Shakespeare” de la Gălăciuc - TO BE OR NOT TO BE?!
+
+O încercare de comparare vizuală pentru a confirma sau infirma probabilitatea ca una sau mai multe fotografii date, în command line (folder batch processing) sau pe o interfață web (responsive, ajax, socket) să fie făcute într-o locație dată, care are un set de poze sample date pentru extragerea și matching-ul informațiilor despre culoare, lightning, forme. Tehnologii Web, NodeJS, ResembleJS, Canvas #hackathon
+
 ## Instalare și rulare 
 Clonați aplicația din repository pe mașina locală și instalați dependințele de module. Este necesară o versiune recentă de NodeJS și NPM, disponibilă în variabila PATH a sistemului sau poate una portabilă.
 
