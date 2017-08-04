@@ -16,7 +16,7 @@ Există două moduri de a rula aplicația:
 
 _Notă: există un al doilea parametru pentru rularea ca CLI tool, respectiv „modul” de operare. Implicit acesta este FAST. Se poate comuta în modul FULL care folosește sample-uri de rezoluție superioară (dar durează semnificativ mai mult) adăugând parametrul full (ex: `node . C:\Users\bodo\Desktop\test full`)_
 - Ca serviciu Web. Rulăm aplicația fără niciun parametru: `node .` sau `node index.js`. În consolă se vor afișa IP-ul interfeței primare de rețea și portul de ascultare. By default, la adresa http://localhost:42522 este disponibilă o pagină web care comunică cu backend-ul și prin care se pot trimite imagini prin drag and drop, respectiv prin selectarea fișierelor sau deschiderea aplicației „Cameră” (pe telefon) pentru analiză.
-- Serviciul web acceptă și call-uri API pe endpoint-ul /api/compare. Se așteaptă un parametru POST numit img  x-www-form-urlencoded care să conțină reprezentarea Base64 a unei imagini. Se returnează un răspuns de forma `{"status":"ok","rezultat":100, "timp":2.13}`
+- Serviciul web acceptă și call-uri API pe endpoint-ul /api/compare. Se așteaptă un parametru POST numit img ca x-www-form-urlencoded care să conțină reprezentarea Base64 a unei imagini. Se returnează un răspuns de forma `{"status":"ok","rezultat":100, "timp":2.13}`
 
 ![api](./res/public/readme_api.png "JSONAPI")
 
