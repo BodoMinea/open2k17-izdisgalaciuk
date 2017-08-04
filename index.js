@@ -6,13 +6,15 @@ const express = require('express'),
 	  io = require('socket.io').listen(server),
 	  ifaces = os.networkInterfaces,
       bodyParser = require("body-parser"),
+      urlencodedParser = bodyParser.urlencoded({ extended: false }),
       resemble = require('node-resemble-js'),
       images = require('images'),
       busboy = require('connect-busboy'),
       fs = require('fs-extra'),
-      path = require('path');
+      path = require('path'),
+      async = require('async');
 
-var folder, mode='fast', fselect, finalresp=[], total; // global
+var folder, mode='fast', fselect, finalresp=[], total, pending; // global
 
 function set(x){
 	total = x;
@@ -70,6 +72,25 @@ function dodiff(input,iname,start,stop,recall,setime){ // functia serioasa care 
 })
 }
 
+function dodiffreturn(input,callback){ // functia serioasa care face comparatie
+  console.log('Procesare imagine de la API headless ca PNG...');
+  if(!start){ var start=0; stop=3; } // iterare default
+  var results=[], iterations=0;
+  fs.readdir('./res/'+fselect+'set', (err, files) => {
+  	for(i=start;i<=stop;i++){
+  	var stime = Date.now();
+    var diff = resemble(input).compareTo('./res/'+fselect+'set/'+files[i]).ignoreAntialiasing().onComplete(function(data){
+    	iterations++;
+		results.push(100-data.misMatchPercentage); // asemanarea ca procent
+		console.log(results); // logging again
+		console.log('WORKING (API) -> Nr. Rez.: '+results.length+' Avg: '+arrayavg(results).toFixed(2)+' Max: '+results.max().toFixed(2)); // and again
+		if(iterations==stop+1){ 
+			pending='{"status":"ok","rezultat":'+(results.max()*3+arrayavg(results))/4+', "timp":'+((Date.now()-stime)/1000).toFixed(2)+'}'; console.log('RASPUNS API: '+pending); callback(); }
+		});
+	}
+})
+}
+
 function writeCSV () { // raport csv					
     var file = './raport.csv';
     var text = '';
@@ -121,12 +142,12 @@ if(!folder){ // mod app server API daca nu avem cmd line
 	  console.log('Webapp accesat -> '+datelog());
 	});
 
-	app.route('/upload') // upload pentru Dropzone AJAx
+	app.route('/upload') // upload pentru Dropzone AJAX
     .post(function (req, res, next) {
 	var fstream;
         req.pipe(req.busboy); // pipe din middleware
         req.busboy.on('file', function (fieldname, file, filename) {
-        	console.log('Minunatul API apelat -> '+datelog());
+        	console.log('Apel API POST -> '+datelog());
             console.log("Incarcare: " + filename);
             fstream = fs.createWriteStream(__dirname + '/res/upl/' + filename);
             file.pipe(fstream);
@@ -136,6 +157,21 @@ if(!folder){ // mod app server API daca nu avem cmd line
             });
         });
     });
+
+	app.post('/api/compare', urlencodedParser, function (req, res) {
+	  if (!req.body) return res.sendStatus(400)
+	  console.log('Apel API headless -> '+datelog());
+	  base64Data = req.body.img.replace(/^data:image\/png;base64,/, "");
+	  require("fs").writeFile("outemp.png", base64Data, 'base64', function(err) {
+			console.log('Imagine Base64 salvata ca PNG');
+			async.series([
+				function(callback){ dodiffreturn('./outemp.png',callback) }
+			  ],
+			  function(err, results) {
+			    res.send(pending);
+			  });
+		});
+	})
 
 	server.listen(42522, function () {
 	  require('dns').lookup(require('os').hostname(), function (err, add, fam) {

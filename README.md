@@ -16,6 +16,9 @@ Există două moduri de a rula aplicația:
 
 _Notă: există un al doilea parametru pentru rularea ca CLI tool, respectiv „modul” de operare. Implicit acesta este FAST. Se poate comuta în modul FULL care folosește sample-uri de rezoluție superioară (dar durează semnificativ mai mult) adăugând parametrul full (ex: `node . C:\Users\bodo\Desktop\test full`)_
 - Ca serviciu Web. Rulăm aplicația fără niciun parametru: `node .` sau `node index.js`. În consolă se vor afișa IP-ul interfeței primare de rețea și portul de ascultare. By default, la adresa http://localhost:42522 este disponibilă o pagină web care comunică cu backend-ul și prin care se pot trimite imagini prin drag and drop, respectiv prin selectarea fișierelor sau deschiderea aplicației „Cameră” (pe telefon) pentru analiză.
+- Serviciul web acceptă și call-uri API pe endpoint-ul /api/compare. Se așteaptă un parametru POST x-www-form-urlencoded care să conțină reprezentarea Base64 a unei imagini. Se returnează un răspuns de forma `{"status":"ok","rezultat":100, "timp":2.13}`
+
+![api](./res/public/readme_api.png "JSONAPI")
 
 ## Tehnologii folosite
 - NodeJS (platforma de bază), Express (partea de web server), BodyParser (eventuali parametrii GET / API), busboy middleware (primire fișiere prin POST), fs-extra (funcții extinse de prelucrare a fișierelor)
@@ -30,7 +33,7 @@ _Notă: există un al doilea parametru pentru rularea ca CLI tool, respectiv „
 * _Aplicația web este responsive și se poate adăuga ca web-app direct pe ecranul de start al telefonului (Android)_
 
 ### To-Do
-- RESTful JSON-API _(**poate**, dacă nu mai pică curentul și dacă mă mai trezesc)_
+- ~~RESTful JSON-API _(**poate**, dacă nu mai pică curentul și dacă mă mai trezesc)_~~ (implementat)
 - Resemble V2 (?)
 - Normalizarea dimensiunii imaginii odată cu conversia pentru a face comparația pe canvas mai precisă (?)
 - Testări automatizate
